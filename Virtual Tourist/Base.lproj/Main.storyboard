@@ -33,5 +33,20 @@
             </objects>
             <point key="canvasLocation" x="139" y="122"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="e0F-jE-AUS">
+            <objects>
+                <viewController id="nfx-dw-hR9" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KQB-ax-Hbm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="bx4-lQ-9Wm"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X6e-SB-aPG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="455" y="767"/>
+        </scene>
     </scenes>
 </document>
