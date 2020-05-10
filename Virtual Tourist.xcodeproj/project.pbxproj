@@ -58,6 +58,9 @@
 		5BAF325B24689550004909AB /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
+				5BAF3277246898CD004909AB /* Model */,
+				5BAF3276246898CC004909AB /* View */,
+				5BAF3273246898C4004909AB /* Controller */,
 				5BAF325C24689550004909AB /* AppDelegate.swift */,
 				5BAF325E24689550004909AB /* SceneDelegate.swift */,
 				5BAF326024689550004909AB /* ViewController.swift */,
@@ -68,6 +71,27 @@
 				5BAF326524689550004909AB /* Virtual_Tourist.xcdatamodeld */,
 			);
 			path = "Virtual Tourist";
+			sourceTree = "<group>";
+		};
+		5BAF3273246898C4004909AB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		5BAF3276246898CC004909AB /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5BAF3277246898CD004909AB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
