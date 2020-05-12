@@ -16,6 +16,8 @@ class MapVC: UIViewController {
     
     var dataController : DataController!
     
+    var pins : [Pin] = []
+    
     var fetchedResultsController : NSFetchedResultsController<Pin>!
 
     
@@ -47,13 +49,32 @@ class MapVC: UIViewController {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinates
         mapView.addAnnotation(annotation)
+        addPin(coordinates)
     }
     
     func addPin(_ coordinate: CLLocationCoordinate2D){
         let pin = Pin(context: dataController.viewContext)
         pin.latitude = coordinate.latitude
         pin.longitude = coordinate.longitude
-        try? dataController.viewContext.save()  ///TODO 'Show error if data not saved'
+        do{
+        try dataController.viewContext.save()   ///TODO 'Show error if data not saved'
+        pins.append(pin)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    fileprivate func setupFetchedResultsController() {
+        let fetchRequest : NSFetchRequest<Pin> = Pin.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "Pin")
+        fetchedResultsController.delegate = self
+        do{
+            try fetchedResultsController.performFetch()
+        } catch{
+            fatalError(error.localizedDescription)
+        }
     }
     
     
@@ -79,4 +100,8 @@ extension MKCoordinateRegion {
         let span = MKCoordinateSpan(latitudeDelta: region[2], longitudeDelta: region[3])
         return MKCoordinateRegion(center: center, span: span)
     }
+}
+
+extension MapVC : NSFetchedResultsControllerDelegate {
+    
 }
