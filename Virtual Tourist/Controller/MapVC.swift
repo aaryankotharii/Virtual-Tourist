@@ -28,6 +28,11 @@ class MapVC: UIViewController {
     }
     
     
+    @IBAction func mapLongTap(_ sender: UILongPressGestureRecognizer) {
+        
+        let tapLocation = sender.location(in: mapView)
+        print(tapLocation)
+    }
     
     
     
