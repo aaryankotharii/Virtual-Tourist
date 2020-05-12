@@ -29,9 +29,18 @@ class MapVC: UIViewController {
     
     
     @IBAction func mapLongTap(_ sender: UILongPressGestureRecognizer) {
-        
+        if sender.state == .began{
         let tapLocation = sender.location(in: mapView)
         print(tapLocation)
+        addAnnotation(tapLocation)
+        }
+    }
+    
+    func addAnnotation(_ frompoint: CGPoint){
+        let coordinates = mapView.convert(frompoint, toCoordinateFrom: mapView)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinates
+        mapView.addAnnotation(annotation)
     }
     
     
