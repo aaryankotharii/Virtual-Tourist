@@ -37,7 +37,7 @@
                     <navigationItem key="navigationItem" id="7Tg-B7-LQh"/>
                     <connections>
                         <outlet property="mapView" destination="6nF-Fk-frh" id="UNW-3n-NOB"/>
-                        <segue destination="nfx-dw-hR9" kind="show" id="XON-gp-O1U"/>
+                        <segue destination="nfx-dw-hR9" kind="show" identifier="tophotos" id="XON-gp-O1U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

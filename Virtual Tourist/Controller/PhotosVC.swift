@@ -15,7 +15,7 @@ class PhotosVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print(coordinate)
         // Do any additional setup after loading the view.
     }
     

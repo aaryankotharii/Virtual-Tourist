@@ -120,7 +120,8 @@ extension MapVC : MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
+        let coordinate = view.annotation?.coordinate
+        performSegue(withIdentifier: "tophotos", sender: coordinate)
     }
     
 }
