@@ -23,10 +23,17 @@ class MapVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupFetchedResultsController()
         if let region = MKCoordinateRegion.load(withKey: "mapregion") {
             mapView.region = region
             mapView.delegate = self
         }
+        loadMap()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        fetchedResultsController = nil
     }
     
     deinit {
@@ -40,7 +47,9 @@ class MapVC: UIViewController {
         if sender.state == .began{
         let tapLocation = sender.location(in: mapView)
         print(tapLocation)
-        addAnnotation(tapLocation)
+       // addAnnotation(tapLocation)
+        let coordinates = mapView.convert(tapLocation, toCoordinateFrom: mapView)
+        addPin(coordinates)
         }
     }
     
@@ -49,7 +58,12 @@ class MapVC: UIViewController {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinates
         mapView.addAnnotation(annotation)
-        addPin(coordinates)
+    }
+    
+    func AddAnnotationToMap(_ fromCoordinate: CLLocationCoordinate2D){
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = fromCoordinate
+        mapView.addAnnotation(annotation)
     }
     
     func addPin(_ coordinate: CLLocationCoordinate2D){
@@ -66,8 +80,7 @@ class MapVC: UIViewController {
     
     fileprivate func setupFetchedResultsController() {
         let fetchRequest : NSFetchRequest<Pin> = Pin.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.sortDescriptors = []
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "Pin")
         fetchedResultsController.delegate = self
         do{
@@ -77,6 +90,39 @@ class MapVC: UIViewController {
         }
     }
     
+    func fetchPins(){
+            
+//            do {
+//
+//                var pinArray:[Pin] = []
+//                try fetchedResultsController.performFetch()
+//                let pinCount = try fetchedResultsController.managedObjectContext.count(for: fetchedResultsController.fetchRequest)
+//                for index in 0..<pinCount {
+//
+//                    pinArray.append(fetchedResultsController.object(at: IndexPath(row: index, section: 0)) as! Pin)
+//                }
+//
+//                return pinArray
+//
+//            } catch {
+//
+//                return nil
+//            }
+        
+
+    }
+    
+    func loadMap(){
+        if let points = fetchedResultsController.fetchedObjects{
+        for point in points {
+            let coordinate = point.coordinate
+            addPin(coordinate)
+        }
+    }
+    }
+    
+    
+    
     
     
 }
@@ -85,6 +131,7 @@ extension MapVC : MKMapViewDelegate {
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         mapView.region.save(withKey: "mapregion")
     }
+    
 }
 
 extension MKCoordinateRegion {
@@ -104,4 +151,46 @@ extension MKCoordinateRegion {
 
 extension MapVC : NSFetchedResultsControllerDelegate {
     
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+       //
+    }
+
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+       //
+    }
+
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        guard let point = anObject as? Pin else {
+            preconditionFailure("All changes observed in the map view controller should be for Point instances")
+        }
+        print(point)
+        switch type {
+        case .insert:
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = point.coordinate
+            mapView.addAnnotation(annotation)
+            print("insert")
+        case .delete:
+            print("delete")
+            //folderTableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            print("update")
+              //folderTableView.reloadRows(at: [indexPath!], with: .fade)
+          case .move:
+            print("move")
+              //folderTableView.moveRow(at: indexPath!, to: newIndexPath!)
+        @unknown default:
+            break
+        }
+    }
+}
+
+extension Pin: MKAnnotation {
+    public var coordinate: CLLocationCoordinate2D {
+        let latDegrees = CLLocationDegrees(latitude)
+        let longDegrees = CLLocationDegrees(longitude)
+        return CLLocationCoordinate2D(latitude: latDegrees, longitude: longDegrees)
+    }
 }
