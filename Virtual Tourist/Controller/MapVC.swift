@@ -15,20 +15,17 @@ class MapVC: UIViewController {
     @IBOutlet var mapView: MKMapView!
     
     var dataController : DataController!
-    
-    var pins : [Pin] = []
-    
+        
     var fetchedResultsController : NSFetchedResultsController<Pin>!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupFetchedResultsController()
+        setupFetchedResultsController(completion: loadMap(fetchSuccessful:))
         if let region = MKCoordinateRegion.load(withKey: "mapregion") {
             mapView.region = region
             mapView.delegate = self
         }
-        loadMap()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -47,18 +44,11 @@ class MapVC: UIViewController {
         if sender.state == .began{
         let tapLocation = sender.location(in: mapView)
         print(tapLocation)
-       // addAnnotation(tapLocation)
-        let coordinates = mapView.convert(tapLocation, toCoordinateFrom: mapView)
-        addPin(coordinates)
+        let coordinate = mapView.convert(tapLocation, toCoordinateFrom: mapView)
+        addPin(coordinate)
         }
     }
     
-    func addAnnotation(_ frompoint: CGPoint){
-        let coordinates = mapView.convert(frompoint, toCoordinateFrom: mapView)
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinates
-        mapView.addAnnotation(annotation)
-    }
     
     func AddAnnotationToMap(_ fromCoordinate: CLLocationCoordinate2D){
         let annotation = MKPointAnnotation()
@@ -67,58 +57,41 @@ class MapVC: UIViewController {
     }
     
     func addPin(_ coordinate: CLLocationCoordinate2D){
-        let pin = Pin(context: dataController.viewContext)
+        let pin = Pin(context: dataController.viewContext)      /// Initialise Pin
         pin.latitude = coordinate.latitude
         pin.longitude = coordinate.longitude
+        
         do{
-        try dataController.viewContext.save()   ///TODO 'Show error if data not saved'
-        pins.append(pin)
+            try dataController.viewContext.save()
         } catch {
             print(error.localizedDescription)
         }
     }
     
-    fileprivate func setupFetchedResultsController() {
+    fileprivate func setupFetchedResultsController(completion: @escaping (Bool)->()) {
         let fetchRequest : NSFetchRequest<Pin> = Pin.fetchRequest()
-        fetchRequest.sortDescriptors = []
+        //fetchRequest.sortDescriptors = []
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "Pin")
         fetchedResultsController.delegate = self
         do{
             try fetchedResultsController.performFetch()
+            completion(true)
         } catch{
+            completion(false)
             fatalError(error.localizedDescription)
         }
     }
     
-    func fetchPins(){
-            
-//            do {
-//
-//                var pinArray:[Pin] = []
-//                try fetchedResultsController.performFetch()
-//                let pinCount = try fetchedResultsController.managedObjectContext.count(for: fetchedResultsController.fetchRequest)
-//                for index in 0..<pinCount {
-//
-//                    pinArray.append(fetchedResultsController.object(at: IndexPath(row: index, section: 0)) as! Pin)
-//                }
-//
-//                return pinArray
-//
-//            } catch {
-//
-//                return nil
-//            }
-        
-
-    }
     
-    func loadMap(){
+    func loadMap(fetchSuccessful success: Bool){
+        if success {
         if let points = fetchedResultsController.fetchedObjects{
         for point in points {
             let coordinate = point.coordinate
             addPin(coordinate)
+                }
+            }
         }
-    }
     }
     
     
@@ -168,9 +141,7 @@ extension MapVC : NSFetchedResultsControllerDelegate {
         print(point)
         switch type {
         case .insert:
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = point.coordinate
-            mapView.addAnnotation(annotation)
+            AddAnnotationToMap(point.coordinate)
             print("insert")
         case .delete:
             print("delete")
