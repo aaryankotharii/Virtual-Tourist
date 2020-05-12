@@ -76,6 +76,14 @@ class MapVC: UIViewController {
         }
     }
     
+    func deletePin(of:MKAnnotation){
+        let coord = of.coordinate
+        if let pins = fetchedResultsController.fetchedObjects{
+            let pin = pins.filter{ $0.coordinate == coord}
+            print(pin)
+            }
+    }
+    
     fileprivate func setupFetchedResultsController(completion: @escaping (Bool)->()) {
         let fetchRequest : NSFetchRequest<Pin> = Pin.fetchRequest()
         fetchRequest.sortDescriptors = []
@@ -122,8 +130,8 @@ extension MapVC : MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let coordinate = view.annotation?.coordinate
         performSegue(withIdentifier: "tophotos", sender: coordinate)
+        mapView.deselectAnnotation(view.annotation, animated: true)
     }
-    
 }
 
 extension MKCoordinateRegion {
