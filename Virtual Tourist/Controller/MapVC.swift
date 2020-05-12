@@ -13,6 +13,11 @@ class MapVC: UIViewController {
 
     @IBOutlet var mapView: MKMapView!
     
+    var dataController : DataController!
+    
+    var fetchedResultsController : NSFetchedResultsController<Pin>!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let region = MKCoordinateRegion.load(withKey: "mapregion") {
@@ -42,6 +47,8 @@ class MapVC: UIViewController {
         annotation.coordinate = coordinates
         mapView.addAnnotation(annotation)
     }
+    
+    func
     
     
     
