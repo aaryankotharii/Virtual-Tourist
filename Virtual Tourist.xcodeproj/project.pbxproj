@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B0283CD246AD6D30086EDB6 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0283CC246AD6D30086EDB6 /* DataController.swift */; };
 		5BAF325D24689550004909AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF325C24689550004909AB /* AppDelegate.swift */; };
 		5BAF325F24689550004909AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF325E24689550004909AB /* SceneDelegate.swift */; };
 		5BAF326124689550004909AB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF326024689550004909AB /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B0283CC246AD6D30086EDB6 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		5BAF325924689550004909AB /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BAF325C24689550004909AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BAF325E24689550004909AB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 		5BAF3277246898CD004909AB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5B0283CC246AD6D30086EDB6 /* DataController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B0283CD246AD6D30086EDB6 /* DataController.swift in Sources */,
 				5BAF327B24689987004909AB /* MapVC.swift in Sources */,
 				5BAF327D246899E0004909AB /* PhotosVC.swift in Sources */,
 				5BAF326724689550004909AB /* Virtual_Tourist.xcdatamodeld in Sources */,
