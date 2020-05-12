@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class MapVC: UIViewController {
 
@@ -48,7 +49,12 @@ class MapVC: UIViewController {
         mapView.addAnnotation(annotation)
     }
     
-    func
+    func addPin(_ coordinate: CLLocationCoordinate2D){
+        let pin = Pin(context: dataController.viewContext)
+        pin.latitude = coordinate.latitude
+        pin.longitude = coordinate.longitude
+        try? dataController.viewContext.save()  ///TODO 'Show error if data not saved'
+    }
     
     
     
