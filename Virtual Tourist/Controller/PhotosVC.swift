@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import MapKit
 
 class PhotosVC: UIViewController {
 
+    var coordinate : CLLocationCoordinate2D!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

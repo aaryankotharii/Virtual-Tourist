@@ -11,21 +11,21 @@ import MapKit
 import CoreData
 
 class MapVC: UIViewController {
-
+    
+    /// Map View that displays 
     @IBOutlet var mapView: MKMapView!
     
+    /// Core data Stack
     var dataController : DataController!
-        
-    var fetchedResultsController : NSFetchedResultsController<Pin>!
-
     
+    /// Fetched Results controller to fetch data from Database
+    var fetchedResultsController : NSFetchedResultsController<Pin>!
+    
+    
+    //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupFetchedResultsController(completion: loadMap(fetchSuccessful:))
-        if let region = MKCoordinateRegion.load(withKey: "mapregion") {
-            mapView.region = region
-            mapView.delegate = self
-        }
+        initialSetup()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -34,18 +34,27 @@ class MapVC: UIViewController {
     }
     
     deinit {
-          mapView.annotations.forEach{mapView.removeAnnotation($0)}
-          mapView.delegate = nil
-          print("deinit: MapViewController")
+        mapView.annotations.forEach{mapView.removeAnnotation($0)}
+        mapView.delegate = nil
+        print("deinit: MapViewController")
+    }
+    
+    func initialSetup(){
+         self.navigationItem.rightBarButtonItem = self.editButtonItem
+        mapView.delegate = self
+        setupFetchedResultsController(completion: loadMap(fetchSuccessful:))
+        if let region = MKCoordinateRegion.load(withKey: "mapregion") {
+            mapView.region = region
+        }
     }
     
     
+    //MARK:- Long Tap Gesture On MapView
     @IBAction func mapLongTap(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began{
-        let tapLocation = sender.location(in: mapView)
-        print(tapLocation)
-        let coordinate = mapView.convert(tapLocation, toCoordinateFrom: mapView)
-        addPin(coordinate)
+            let tapLocation = sender.location(in: mapView)
+            let coordinate = mapView.convert(tapLocation, toCoordinateFrom: mapView)
+            addPin(coordinate)
         }
     }
     
@@ -60,7 +69,6 @@ class MapVC: UIViewController {
         let pin = Pin(context: dataController.viewContext)      /// Initialise Pin
         pin.latitude = coordinate.latitude
         pin.longitude = coordinate.longitude
-        
         do{
             try dataController.viewContext.save()
         } catch {
@@ -70,7 +78,7 @@ class MapVC: UIViewController {
     
     fileprivate func setupFetchedResultsController(completion: @escaping (Bool)->()) {
         let fetchRequest : NSFetchRequest<Pin> = Pin.fetchRequest()
-        //fetchRequest.sortDescriptors = []
+        fetchRequest.sortDescriptors = []
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "Pin")
         fetchedResultsController.delegate = self
         do{
@@ -85,15 +93,21 @@ class MapVC: UIViewController {
     
     func loadMap(fetchSuccessful success: Bool){
         if success {
-        if let points = fetchedResultsController.fetchedObjects{
-        for point in points {
-            let coordinate = point.coordinate
-            addPin(coordinate)
+            if let points = fetchedResultsController.fetchedObjects{
+                for point in points {
+                    let coordinate = point.coordinate
+                    addPin(coordinate)
                 }
             }
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? PhotosVC {
+            let coordinate = sender as! CLLocationCoordinate2D
+            vc.coordinate = coordinate
+        }
+    }
     
     
     
@@ -103,6 +117,10 @@ class MapVC: UIViewController {
 extension MapVC : MKMapViewDelegate {
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         mapView.region.save(withKey: "mapregion")
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
     }
     
 }
@@ -125,33 +143,31 @@ extension MKCoordinateRegion {
 extension MapVC : NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-       //
+        //
     }
-
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-       //
+        //
     }
-
-
+    
+    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         guard let point = anObject as? Pin else {
             preconditionFailure("All changes observed in the map view controller should be for Point instances")
         }
-        print(point)
         switch type {
         case .insert:
             AddAnnotationToMap(point.coordinate)
-            print("insert")
         case .delete:
             print("delete")
-            //folderTableView.deleteRows(at: [indexPath!], with: .fade)
+        //folderTableView.deleteRows(at: [indexPath!], with: .fade)
         case .update:
             print("update")
-              //folderTableView.reloadRows(at: [indexPath!], with: .fade)
-          case .move:
+        //folderTableView.reloadRows(at: [indexPath!], with: .fade)
+        case .move:
             print("move")
-              //folderTableView.moveRow(at: indexPath!, to: newIndexPath!)
+        //folderTableView.moveRow(at: indexPath!, to: newIndexPath!)
         @unknown default:
             break
         }
