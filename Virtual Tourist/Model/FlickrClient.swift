@@ -16,4 +16,46 @@ class FlickrClient {
     private static let searchRangeKM   = 10
     
     
+    //MARK:- GET REQUEST
+    class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) -> URLSessionDataTask {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+                return
+            }
+            let decoder = JSONDecoder()
+            do {
+                let range = Range(uncheckedBounds: (14, data.count - 1))
+                let newData = data.subdata(in: range)
+                let responseObject = try decoder.decode(ResponseType.self, from: newData)
+                DispatchQueue.main.async {
+                    completion(responseObject, nil)
+                }
+            } catch {
+               
+                    DispatchQueue.main.async {
+                        completion(nil, error)
+                }
+            }
+        }
+        task.resume()
+        
+        return task
+    }
+    
+    static func getFlickrImages(lat: Double, lng: Double, completion: @escaping (Bool,[FlickrImage]?,Error?) -> Void) {
+        
+            let request = URL(string: "\(flickrEndpoint)?method=\(flickrSearch)&format=\(format)&api_key=\(flickrAPIKey)&lat=\(lat)&lon=\(lng)&radius=\(searchRangeKM)")!
+        
+        taskForGETRequest(url: request, responseType: PhotosResponse.self) { (result, error) in
+            if let error = error {
+                completion(false,[],error)
+                return
+            }
+            let photos = result?.photos.photo
+            completion(true,photos,nil)
+        }
+    }
 }

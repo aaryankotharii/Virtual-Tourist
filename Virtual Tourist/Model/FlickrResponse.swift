@@ -9,15 +9,6 @@
 import Foundation
 
 
-struct flickr : Codable{
-    let id:Int
-    let secret:String
-    let server:String
-    let farm:Int
-}
-
-//{"page":1,"pages":0,"perpage":250,"total":"0","photo":[]}
-
 struct PhotosResponse:Codable {
     let photos: PhotosInfo
     let stat: String
@@ -28,9 +19,9 @@ struct PhotosInfo: Codable {
     let pages: Int
     let perpage: Int
     let total: String
-    let photo: [FlickerPhoto]
+    let photo: [FlickrImage]
 }
-struct FlickerPhoto:Codable {
+struct FlickrImage:Codable {
     let id: String
     let owner: String
     let secret: String
