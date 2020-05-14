@@ -13,21 +13,27 @@ class PhotosVC: UIViewController {
 
     var coordinate : CLLocationCoordinate2D!
     
+    @IBOutlet var mapView: MKMapView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(coordinate)
+        
+        mapView.delegate = self
+        setupMap()
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    func setupMap(){
+        let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+        mapView.region = MKCoordinateRegion(center: coordinate, span: span)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        mapView.addAnnotation(annotation)
+      }
 }
+
+extension PhotosVC : MKMapViewDelegate{
+    
+}
+
