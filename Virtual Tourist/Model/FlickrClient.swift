@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class FlickrClient {
     private static let flickrEndpoint  = "https://api.flickr.com/services/rest/"
@@ -58,4 +59,12 @@ class FlickrClient {
             completion(true,photos,nil)
         }
     }
+    
+//
+//    static func downLoadImages(_ flickerImages : [FlickrImage]?)->[UIImage]?{
+//        if let flickerImages = flickerImages{
+//
+//        }
+//    }
+    
 }

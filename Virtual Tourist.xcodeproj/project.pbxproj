@@ -19,6 +19,7 @@
 		5BAF327B24689987004909AB /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF327A24689987004909AB /* MapVC.swift */; };
 		5BAF327D246899E0004909AB /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF327C246899E0004909AB /* PhotosVC.swift */; };
 		5BC6880D246D0BF50059EC21 /* FlickrResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC6880C246D0BF50059EC21 /* FlickrResponse.swift */; };
+		5BC6880F246D12690059EC21 /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC6880E246D12690059EC21 /* PhotosCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		5BAF327A24689987004909AB /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		5BAF327C246899E0004909AB /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		5BC6880C246D0BF50059EC21 /* FlickrResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrResponse.swift; sourceTree = "<group>"; };
+		5BC6880E246D12690059EC21 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 		5BAF3276246898CC004909AB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5BC6880E246D12690059EC21 /* PhotosCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B0283CD246AD6D30086EDB6 /* DataController.swift in Sources */,
+				5BC6880F246D12690059EC21 /* PhotosCollectionViewCell.swift in Sources */,
 				5BAF327B24689987004909AB /* MapVC.swift in Sources */,
 				5BC6880D246D0BF50059EC21 /* FlickrResponse.swift in Sources */,
 				5BAF327D246899E0004909AB /* PhotosVC.swift in Sources */,
