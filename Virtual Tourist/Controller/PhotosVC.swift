@@ -13,6 +13,7 @@ class PhotosVC: UIViewController {
 
     var coordinate : CLLocationCoordinate2D!
     
+    @IBOutlet var collextionView: UICollectionView!
     @IBOutlet var mapView: MKMapView!
     
     override func viewDidLoad() {
@@ -34,6 +35,18 @@ class PhotosVC: UIViewController {
 }
 
 extension PhotosVC : MKMapViewDelegate{
+    
+}
+
+extension PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        <#code#>
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        <#code#>
+    }
+    
     
 }
 
