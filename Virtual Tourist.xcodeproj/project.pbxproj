@@ -18,6 +18,8 @@
 		5B7D1D10246E537300D531DB /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D0F246E537300D531DB /* DataController.swift */; };
 		5B7D1D12246E53D300D531DB /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D11246E53D300D531DB /* PhotosVC.swift */; };
 		5B7D1D14246E53E500D531DB /* CLLocation+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D13246E53E400D531DB /* CLLocation+Equatable.swift */; };
+		5B7D1D18246E56C500D531DB /* FlickrResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D16246E56C400D531DB /* FlickrResponse.swift */; };
+		5B7D1D19246E56C500D531DB /* FlickrClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D17246E56C500D531DB /* FlickrClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		5B7D1D0F246E537300D531DB /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		5B7D1D11246E53D300D531DB /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		5B7D1D13246E53E400D531DB /* CLLocation+Equatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocation+Equatable.swift"; sourceTree = "<group>"; };
+		5B7D1D16246E56C400D531DB /* FlickrResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrResponse.swift; sourceTree = "<group>"; };
+		5B7D1D17246E56C500D531DB /* FlickrClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				5B7D1D0F246E537300D531DB /* DataController.swift */,
+				5B7D1D17246E56C500D531DB /* FlickrClient.swift */,
+				5B7D1D16246E56C400D531DB /* FlickrResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -178,7 +184,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B7D1D0D246E52BF00D531DB /* MapVC.swift in Sources */,
+				5B7D1D19246E56C500D531DB /* FlickrClient.swift in Sources */,
 				5B7D1D10246E537300D531DB /* DataController.swift in Sources */,
+				5B7D1D18246E56C500D531DB /* FlickrResponse.swift in Sources */,
 				5B7D1D12246E53D300D531DB /* PhotosVC.swift in Sources */,
 				5B7D1CFF246E501000D531DB /* Virtual_Tourist.xcdatamodeld in Sources */,
 				5B7D1D14246E53E500D531DB /* CLLocation+Equatable.swift in Sources */,

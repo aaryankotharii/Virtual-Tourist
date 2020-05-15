@@ -116,10 +116,6 @@ class MapVC: UIViewController {
             vc.coordinate = coordinate
         }
     }
-    
-    
-    
-    
 }
 
 extension MapVC : MKMapViewDelegate {

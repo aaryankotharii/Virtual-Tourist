@@ -7,24 +7,40 @@
 //
 
 import UIKit
+import MapKit
 
 class PhotosVC: UIViewController {
 
+    @IBOutlet var collectionView: UICollectionView!
+    
+    var coordinate : CLLocationCoordinate2D!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        FlickrClient.getFlickrImages(lat: coordinate.latitude, lng: coordinate.longitude, completion: handleGetFlickrImages(success:result:error:))
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func handleGetFlickrImages(success:Bool,result:[FlickrImage]?,error:Error?){
+        if success {
+            if let result = result {
+                for image in result{
+                    print(image.imageURLString())
+                }
+            }
+        }
     }
-    */
+    
+    
+}
 
+extension  PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return UICollectionViewCell()
+    }
+    
+    
 }
