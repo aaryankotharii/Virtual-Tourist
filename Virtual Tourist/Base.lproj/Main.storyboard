@@ -58,7 +58,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Nqm-9d-N9W">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="246.5"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="159"/>
                                 <connections>
                                     <outlet property="delegate" destination="Geu-KT-l4Z" id="MR2-MS-Uxn"/>
                                 </connections>
@@ -78,7 +78,7 @@
                                 </items>
                             </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IJb-7a-lPk">
-                                <rect key="frame" x="0.0" y="246.5" width="414" height="566.5"/>
+                                <rect key="frame" x="0.0" y="247" width="414" height="566"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lxy-ch-v0Q">
                                     <size key="itemSize" width="128" height="128"/>
@@ -118,10 +118,10 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Nqm-9d-N9W" firstAttribute="height" secondItem="ei8-Qi-45m" secondAttribute="height" multiplier="0.275112" id="58S-UL-7oz"/>
+                            <constraint firstItem="Nqm-9d-N9W" firstAttribute="height" secondItem="ei8-Qi-45m" secondAttribute="height" multiplier="0.275112" constant="-87.5" id="58S-UL-7oz"/>
                             <constraint firstItem="IJb-7a-lPk" firstAttribute="leading" secondItem="XZK-QG-Lbz" secondAttribute="leading" id="Hjy-iz-jgg"/>
                             <constraint firstItem="x3t-zS-Cpr" firstAttribute="trailing" secondItem="XZK-QG-Lbz" secondAttribute="trailing" id="Iyt-Gm-rKG"/>
-                            <constraint firstItem="Nqm-9d-N9W" firstAttribute="top" secondItem="ei8-Qi-45m" secondAttribute="top" id="Pyp-J1-2V1"/>
+                            <constraint firstItem="Nqm-9d-N9W" firstAttribute="top" secondItem="ei8-Qi-45m" secondAttribute="top" constant="88" id="Pyp-J1-2V1"/>
                             <constraint firstItem="Nqm-9d-N9W" firstAttribute="leading" secondItem="XZK-QG-Lbz" secondAttribute="leading" id="RmI-Lu-alP"/>
                             <constraint firstItem="Nqm-9d-N9W" firstAttribute="trailing" secondItem="XZK-QG-Lbz" secondAttribute="trailing" id="SF7-k5-e8x"/>
                             <constraint firstItem="XZK-QG-Lbz" firstAttribute="bottom" secondItem="x3t-zS-Cpr" secondAttribute="bottom" id="Tef-iD-ZZ3"/>

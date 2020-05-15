@@ -49,25 +49,24 @@ class FlickrClient {
         return task
     }
     
-    static func getFlickrImages(lat: Double, lng: Double, completion: @escaping (Bool,[FlickrImage]?,Error?) -> Void) {
+    static func getFlickrImages(lat: Double, lng: Double, completion: @escaping ([FlickrImage]?,Error?) -> Void) {
         
             let request = URL(string: "\(flickrEndpoint)?method=\(flickrSearch)&format=\(format)&api_key=\(flickrAPIKey)&lat=\(lat)&lon=\(lng)&radius=\(searchRangeKM)")!
         
         taskForGETRequest(url: request, responseType: PhotosResponse.self) { (result, error) in
             if let error = error {
-                completion(false,[],error)
+                completion(nil,error)
                 return
             }
             let photos = result?.photos.photo
-            
-            completion(true,photos,nil)
+            completion(photos,nil)
         }
     }
     
-    class func requestImageFile(_ url : URL, completionHandler: @escaping (Data?,Error?) -> Void){
+    class func requestImageFile(_ url : URL, completion: @escaping (Data?,Error?) -> Void){
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let data = data else {completionHandler(nil,error) ; return }
-            completionHandler(data,nil)
+            guard let data = data else {completion(nil,error) ; return }
+            completion(data,nil)
         }
         task.resume()
     }
