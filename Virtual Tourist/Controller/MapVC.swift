@@ -33,6 +33,11 @@ class MapVC: UIViewController {
         fetchedResultsController = nil
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //initialSetup()
+    }
+    
     deinit {
         mapView.annotations.forEach{mapView.removeAnnotation($0)}
         mapView.delegate = nil
@@ -78,10 +83,15 @@ class MapVC: UIViewController {
     
     func deletePin(of:MKAnnotation){
         let coord = of.coordinate
+        fetchPin(coord)
+    }
+    
+    func fetchPin(_ coordinate: CLLocationCoordinate2D) -> Pin?{
         if let pins = fetchedResultsController.fetchedObjects{
-            let pin = pins.filter{ $0.coordinate == coord}
-            print(pin)
-            }
+            let pin = pins.filter{ $0.coordinate == coordinate}
+            return pin.first
+        }
+        return nil
     }
     
     fileprivate func setupFetchedResultsController(completion: @escaping (Bool)->()) {
@@ -114,6 +124,8 @@ class MapVC: UIViewController {
         if let vc = segue.destination as? PhotosVC {
             let coordinate = sender as! CLLocationCoordinate2D
             vc.coordinate = coordinate
+            vc.dataController = self.dataController
+            vc.pin = fetchPin(coordinate)
         }
     }
 }

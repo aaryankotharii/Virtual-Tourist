@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+import Foundation
+import UIKit
+
 class FlickrClient {
     private static let flickrEndpoint  = "https://api.flickr.com/services/rest/"
     private static let flickrAPIKey    = "6631798c498928174b419c82dcbeccb8"
@@ -56,7 +59,16 @@ class FlickrClient {
                 return
             }
             let photos = result?.photos.photo
+            
             completion(true,photos,nil)
         }
+    }
+    
+    class func requestImageFile(_ url : URL, completionHandler: @escaping (Data?,Error?) -> Void){
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data else {completionHandler(nil,error) ; return }
+            completionHandler(data,nil)
+        }
+        task.resume()
     }
 }
