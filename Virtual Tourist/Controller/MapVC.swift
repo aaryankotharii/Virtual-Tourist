@@ -85,6 +85,12 @@ class MapVC: UIViewController {
         }
     }
     
+    func deleteAnnotation(_ fromCoordinate : CLLocationCoordinate2D){
+       let annotations =  mapView.annotations.filter { $0.coordinate == fromCoordinate}
+        let annotationtoDelete = annotations.first
+        mapView.removeAnnotation(annotationtoDelete!)
+    }
+    
     func deletePin(_ pin:MKAnnotation){
         let coord = pin.coordinate
         let pinToDelete = fetchPin(coord)!
@@ -149,10 +155,21 @@ extension MapVC : MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if isEditing { print("editing")}
-        let coordinate = view.annotation?.coordinate
-        performSegue(withIdentifier: "tophotos", sender: coordinate)
-        mapView.deselectAnnotation(view.annotation, animated: true)
+        if isEditing {
+            print("editing")
+            deleteAlert("Pin") { (result) in
+                if result == .success {
+                    mapView.deselectAnnotation(view.annotation, animated: true)
+                    self.deletePin(view.annotation!)
+                } else {
+                    mapView.deselectAnnotation(view.annotation, animated: true)
+                }
+            }
+        } else {
+            let coordinate = view.annotation?.coordinate
+            performSegue(withIdentifier: "tophotos", sender: coordinate)
+            mapView.deselectAnnotation(view.annotation, animated: true)
+        }
     }
 }
 
@@ -193,7 +210,7 @@ extension MapVC : NSFetchedResultsControllerDelegate {
             AddAnnotationToMap(point.coordinate)
         case .delete:
             print("delete")
-        //folderTableView.deleteRows(at: [indexPath!], with: .fade)
+            deleteAnnotation(point.coordinate)
         case .update:
             print("update")
         //folderTableView.reloadRows(at: [indexPath!], with: .fade)
