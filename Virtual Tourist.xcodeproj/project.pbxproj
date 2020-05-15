@@ -16,6 +16,8 @@
 		5B7D1D04246E501500D531DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B7D1D02246E501500D531DB /* LaunchScreen.storyboard */; };
 		5B7D1D0D246E52BF00D531DB /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D0C246E52BF00D531DB /* MapVC.swift */; };
 		5B7D1D10246E537300D531DB /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D0F246E537300D531DB /* DataController.swift */; };
+		5B7D1D12246E53D300D531DB /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D11246E53D300D531DB /* PhotosVC.swift */; };
+		5B7D1D14246E53E500D531DB /* CLLocation+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D13246E53E400D531DB /* CLLocation+Equatable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		5B7D1D05246E501500D531DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B7D1D0C246E52BF00D531DB /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		5B7D1D0F246E537300D531DB /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		5B7D1D11246E53D300D531DB /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
+		5B7D1D13246E53E400D531DB /* CLLocation+Equatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocation+Equatable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,7 @@
 		5B7D1CF3246E501000D531DB /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
+				5B7D1D15246E53E900D531DB /* Utilities */,
 				5B7D1D0E246E536600D531DB /* Model */,
 				5B7D1D0B246E52A700D531DB /* Controller */,
 				5B7D1CF4246E501000D531DB /* AppDelegate.swift */,
@@ -80,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				5B7D1D0C246E52BF00D531DB /* MapVC.swift */,
+				5B7D1D11246E53D300D531DB /* PhotosVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -90,6 +96,14 @@
 				5B7D1D0F246E537300D531DB /* DataController.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		5B7D1D15246E53E900D531DB /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5B7D1D13246E53E400D531DB /* CLLocation+Equatable.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,7 +179,9 @@
 			files = (
 				5B7D1D0D246E52BF00D531DB /* MapVC.swift in Sources */,
 				5B7D1D10246E537300D531DB /* DataController.swift in Sources */,
+				5B7D1D12246E53D300D531DB /* PhotosVC.swift in Sources */,
 				5B7D1CFF246E501000D531DB /* Virtual_Tourist.xcdatamodeld in Sources */,
+				5B7D1D14246E53E500D531DB /* CLLocation+Equatable.swift in Sources */,
 				5B7D1CF9246E501000D531DB /* ViewController.swift in Sources */,
 				5B7D1CF5246E501000D531DB /* AppDelegate.swift in Sources */,
 				5B7D1CF7246E501000D531DB /* SceneDelegate.swift in Sources */,
