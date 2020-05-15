@@ -22,6 +22,15 @@ extension UIViewController {
         
         self.present(deleteAlert,animated: true)
     }
+    
+    //MARK:- ALERT fucntion for error display
+    internal func errorALert(_ message:String, completion: (() -> Void)? = nil){
+        let title = "Uh Oh 🙁"
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        self.present(alert, animated: true)
+    }
 }
 
 enum ErrorResult {
