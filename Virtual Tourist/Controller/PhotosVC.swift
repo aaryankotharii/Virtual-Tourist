@@ -31,7 +31,7 @@ class PhotosVC: UIViewController {
     let totalCellCount:Int = 25
     
     override func viewDidLoad() {
-        
+                
         let space: CGFloat = 3.0
         let dimension = (self.view.frame.size.width - (2 * space)) / 3.0
         
@@ -43,17 +43,17 @@ class PhotosVC: UIViewController {
         
         super.viewDidLoad()
         setupFetchedResultsController(completion: fetchSuccess(success:))
-        print(fetchedResultsController.fetchedObjects)
-        print(fetchedResultsController.sections?[0].numberOfObjects)
     }
     
     override func viewDidAppear(_ animated: Bool) {
 
     }
     
+
+    
     func fetchSuccess(success:Bool){
         if success{
-            if fetchedResultsController.fetchedObjects?.count == 0 {
+            if pin.photo?.count == 0 {
                 FlickrClient.getFlickrImages(lat: coordinate.latitude, lng: coordinate.longitude) { (success, result, error) in
                     if success {
                         if let result = result{
@@ -65,26 +65,30 @@ class PhotosVC: UIViewController {
                         }
                     }
                 }
-                }
+            }
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        fetchedResultsController = nil
+        //fetchedResultsController = nil
     }
     
-    deinit {
-        collectionView.delegate = nil
-        fetchedResultsController = nil
-        print("deinit: PhotosVC")
-    }
+//    deinit {
+//        collectionView.delegate = nil
+//        fetchedResultsController = nil
+//        print("deinit: PhotosVC")
+//    }
     
     func addImageToCoreData(_ data : Data) {
         let photo = Photo(context: dataController.viewContext)
         photo.pin = pin
         photo.imageData = data
-        try? dataController.viewContext.save()  ///TODO 'Show error if data not saved'
+        do {
+        try dataController.viewContext.save()  ///TODO 'Show error if data not saved'
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func handleImageDownload(data:Data?,error:Error?){
@@ -105,7 +109,7 @@ class PhotosVC: UIViewController {
     
     fileprivate func setupFetchedResultsController(completion: @escaping (Bool)->()){
             let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
-        let predicate = NSPredicate(format: "pin == %@", self.pin)
+            let predicate = NSPredicate(format: "pin == %@", pin)
             fetchRequest.predicate = predicate
             fetchRequest.sortDescriptors = []
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)

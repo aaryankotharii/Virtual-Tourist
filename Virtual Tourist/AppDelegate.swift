@@ -33,8 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-//    // MARK: - Core Data stack
-//
+    // MARK: - Core Data stack
+
 //    lazy var persistentContainer: NSPersistentContainer = {
 //        /*
 //         The persistent container for the application. This implementation
@@ -61,9 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        })
 //        return container
 //    }()
-//
-//    // MARK: - Core Data Saving support
-//
+
+    // MARK: - Core Data Saving support
+
 //    func saveContext () {
 //        let context = persistentContainer.viewContext
 //        if context.hasChanges {
@@ -77,6 +77,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
 //    }
-}
 
+}
 

@@ -25,12 +25,12 @@ class MapVC: UIViewController {
     //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        initialSetup()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         fetchedResultsController = nil
+        mapView.annotations.forEach{mapView.removeAnnotation($0)}
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,8 +58,10 @@ class MapVC: UIViewController {
     @IBAction func mapLongTap(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began{
             let tapLocation = sender.location(in: mapView)
-            let coordinate = mapView.convert(tapLocation, toCoordinateFrom: mapView)
-            addPin(coordinate)
+            DispatchQueue.main.async {
+                let coordinate = self.mapView.convert(tapLocation, toCoordinateFrom: self.mapView)
+                self.addPin(coordinate)
+            }
         }
     }
     
@@ -71,6 +73,7 @@ class MapVC: UIViewController {
     }
     
     func addPin(_ coordinate: CLLocationCoordinate2D){
+        print("adding pin")
         let pin = Pin(context: dataController.viewContext)      /// Initialise Pin
         pin.latitude = coordinate.latitude
         pin.longitude = coordinate.longitude
@@ -88,6 +91,7 @@ class MapVC: UIViewController {
     
     func fetchPin(_ coordinate: CLLocationCoordinate2D) -> Pin?{
         if let pins = fetchedResultsController.fetchedObjects{
+            print("pINS",pins)
             let pin = pins.filter{ $0.coordinate == coordinate}
             return pin.first
         }
@@ -114,7 +118,7 @@ class MapVC: UIViewController {
             if let points = fetchedResultsController.fetchedObjects{
                 for point in points {
                     let coordinate = point.coordinate
-                    addPin(coordinate)
+                    AddAnnotationToMap(coordinate)
                 }
             }
         }
@@ -137,7 +141,13 @@ extension MapVC : MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let coordinate = view.annotation?.coordinate
-        performSegue(withIdentifier: "tophotos", sender: coordinate)
+       // performSegue(withIdentifier: "tophotos", sender: coordinate)
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = mainStoryboard.instantiateViewController(identifier: "PhotosVC") as! PhotosVC
+        vc.coordinate = coordinate
+        vc.pin = fetchPin(coordinate!)
+        vc.dataController = dataController
+        self.navigationController?.pushViewController(vc, animated: true)
         mapView.deselectAnnotation(view.annotation, animated: true)
     }
 }

@@ -37,7 +37,6 @@
                     <navigationItem key="navigationItem" id="Mqp-Ib-v79"/>
                     <connections>
                         <outlet property="mapView" destination="NaK-ST-MTi" id="T7x-f1-WzX"/>
-                        <segue destination="Geu-KT-l4Z" kind="show" identifier="tophotos" id="3qw-w3-ens"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -52,7 +51,7 @@
         <!--PhotosVC-->
         <scene sceneID="Bvp-O1-zll">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="Geu-KT-l4Z" customClass="PhotosVC" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotosVC" modalPresentationStyle="fullScreen" id="Geu-KT-l4Z" customClass="PhotosVC" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ei8-Qi-45m">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

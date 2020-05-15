@@ -18,6 +18,7 @@ class DataController {
     var viewContext : NSManagedObjectContext {
         return persistentContainer.viewContext
     }
+
     
     func load( completion:( () -> Void )? = nil ){
         persistentContainer.loadPersistentStores { (storeDescription, error) in
