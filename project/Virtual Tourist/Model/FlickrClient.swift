@@ -59,12 +59,4 @@ class FlickrClient {
             completion(true,photos,nil)
         }
     }
-    
-//
-//    static func downLoadImages(_ flickerImages : [FlickrImage]?)->[UIImage]?{
-//        if let flickerImages = flickerImages{
-//
-//        }
-//    }
-    
 }

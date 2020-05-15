@@ -4,7 +4,6 @@
 //
 //  Created by Aaryan Kothari on 11/05/20.
 //  Copyright © 2020 Aaryan Kothari. All rights reserved.
-//
 
 import UIKit
 import MapKit
@@ -31,6 +30,12 @@ class MapVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         fetchedResultsController = nil
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupFetchedResultsController(completion: loadMap(fetchSuccessful:))
+
     }
     
     deinit {
@@ -78,10 +83,6 @@ class MapVC: UIViewController {
     
     func deletePin(of:MKAnnotation){
         let coord = of.coordinate
-        if let pins = fetchedResultsController.fetchedObjects{
-            let pin = pins.filter{ $0.coordinate == coord}
-            print(pin)
-            }
     }
     
     fileprivate func setupFetchedResultsController(completion: @escaping (Bool)->()) {
@@ -110,10 +111,21 @@ class MapVC: UIViewController {
         }
     }
     
+    func getSelectedPin(_ coordinate : CLLocationCoordinate2D)->Pin{
+        var returnPin = Pin(context: dataController.viewContext)
+        if let pins = fetchedResultsController.fetchedObjects{
+        let pin = pins.filter{ $0.coordinate == coordinate}
+            returnPin =  pin.first!
+        }
+        return returnPin
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? PhotosVC {
             let coordinate = sender as! CLLocationCoordinate2D
             vc.coordinate = coordinate
+            vc.dataController = dataController
+            vc.coreDataPin = getSelectedPin(coordinate)
         }
     }
     
