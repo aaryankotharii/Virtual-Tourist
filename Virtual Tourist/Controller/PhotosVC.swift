@@ -33,7 +33,11 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        initialSetup()
+    }
+    
+    func initialSetup(){
+        //collectionView FlowLayout setup
         let space: CGFloat = 3.0
         let dimension = (self.view.frame.size.width - (2 * space)) / 3.0
         
@@ -41,28 +45,12 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
         flowLayout.minimumLineSpacing = spacingBetweenItems
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
         
-        
         setupMap()
         setupFetchedResultsController()
         fetchSuccess()
     }
     
-    func fetchSuccess(){
-            if pin.photo?.count == 0 {
-                FlickrClient.getFlickrImages(lat: coordinate.latitude, lng: coordinate.longitude, completion: handleSuccessFlickerImages(result:error:))
-            }
-        }
-    
-    func handleSuccessFlickerImages(result:[FlickrImage]?,error:Error?){
-            if let result = result{
-                for image in result {
-                    let url = image.imageURLString()
-                    let imageUrl = URL(string: url)
-                    FlickrClient.requestImageFile(imageUrl!, completion: self.handleImageDownload(data:error:))
-                }
-            }
-    }
-    
+    // SETUP MAP
     func setupMap(){
         let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
         mapView.region = MKCoordinateRegion(center: coordinate, span: span)
@@ -73,16 +61,34 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
     }
     
     
+    //MARK: Get array of FlickrImages
+    func fetchSuccess(){
+        if pin.photo?.count == 0 {
+            FlickrClient.getFlickrImages(lat: coordinate.latitude, lng: coordinate.longitude, completion: handleSuccessFlickerImages(result:error:))
+        }
+    }
+    
+    //MARK: Get Array of imageUrls
+    func handleSuccessFlickerImages(result:[FlickrImage]?,error:Error?){
+        if let result = result{
+            for image in result {
+                let imageUrl = URL(string: image.imageURLString())
+                FlickrClient.requestImageFile(imageUrl!, completion: self.handleImageDownload(data:error:))
+            }
+        }
+    }
+    
+    //MARK: Download Images from imageUrls
     func handleImageDownload(data:Data?,error:Error?){
         if let data = data {
             print(data,"data saved")
             addImageToCoreData(data)
         } else {
-            print(error?.localizedDescription,"Error saving data")
+            print(error!.localizedDescription,"Error saving data")
         }
     }
     
-    
+    //MARK: Save Image Data to coreData
     func addImageToCoreData(_ data : Data) {
         let photo = Photo(context: dataController.viewContext)
         photo.pin = pin
@@ -94,17 +100,19 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
         }
     }
     
+    //MARK: Delete Image from database
     func deleteImage(at indexPath: IndexPath) {
         let imageToDelete = fetchedResultsController.object(at: indexPath)
         dataController.viewContext.delete(imageToDelete)
         do{
-        try dataController.viewContext.save()
+            try dataController.viewContext.save()
         } catch {
             print(error.localizedDescription)
         }
     }
 }
 
+//MARK:-  UICollectionView Methods
 extension  PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[0].numberOfObjects ?? 0
@@ -128,7 +136,6 @@ extension  PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
         return spacingBetweenItems
     }
     
@@ -144,6 +151,7 @@ extension  PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
 }
 
+//MARK:- FetchedResultsController Methods
 extension PhotosVC : NSFetchedResultsControllerDelegate{
     
     fileprivate func setupFetchedResultsController(){
