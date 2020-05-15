@@ -10,8 +10,9 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotosVC: UIViewController {
+class PhotosVC: UIViewController, MKMapViewDelegate {
 
+    @IBOutlet var mapView: MKMapView!
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet var barButton: UIButton!
@@ -40,7 +41,7 @@ class PhotosVC: UIViewController {
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
 
         
-        
+        setupMap()
         super.viewDidLoad()
         setupFetchedResultsController(completion: fetchSuccess(success:))
     }
@@ -73,6 +74,15 @@ class PhotosVC: UIViewController {
         super.viewDidDisappear(animated)
         //fetchedResultsController = nil
     }
+    
+    func setupMap(){
+        let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+        mapView.region = MKCoordinateRegion(center: coordinate, span: span)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        mapView.addAnnotation(annotation)
+      }
     
 //    deinit {
 //        collectionView.delegate = nil

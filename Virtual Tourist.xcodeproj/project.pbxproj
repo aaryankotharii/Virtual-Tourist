@@ -20,6 +20,7 @@
 		5B7D1D18246E56C500D531DB /* FlickrResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D16246E56C400D531DB /* FlickrResponse.swift */; };
 		5B7D1D19246E56C500D531DB /* FlickrClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D17246E56C500D531DB /* FlickrClient.swift */; };
 		5B7D1D1C246E636700D531DB /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D1B246E636700D531DB /* PhotosCollectionViewCell.swift */; };
+		5B7D1D1F246F108700D531DB /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7D1D1E246F108700D531DB /* Alert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		5B7D1D16246E56C400D531DB /* FlickrResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrResponse.swift; sourceTree = "<group>"; };
 		5B7D1D17246E56C500D531DB /* FlickrClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrClient.swift; sourceTree = "<group>"; };
 		5B7D1D1B246E636700D531DB /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
+		5B7D1D1E246F108700D531DB /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				5B7D1D13246E53E400D531DB /* CLLocation+Equatable.swift */,
+				5B7D1D1E246F108700D531DB /* Alert.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 				5B7D1D1C246E636700D531DB /* PhotosCollectionViewCell.swift in Sources */,
 				5B7D1CFF246E501000D531DB /* Virtual_Tourist.xcdatamodeld in Sources */,
 				5B7D1D14246E53E500D531DB /* CLLocation+Equatable.swift in Sources */,
+				5B7D1D1F246F108700D531DB /* Alert.swift in Sources */,
 				5B7D1CF5246E501000D531DB /* AppDelegate.swift in Sources */,
 				5B7D1CF7246E501000D531DB /* SceneDelegate.swift in Sources */,
 			);

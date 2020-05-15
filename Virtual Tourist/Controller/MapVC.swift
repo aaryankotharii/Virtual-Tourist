@@ -36,6 +36,7 @@ class MapVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         initialSetup()
+        updateEditButtonState()
     }
     
     deinit {
@@ -84,9 +85,17 @@ class MapVC: UIViewController {
         }
     }
     
-    func deletePin(of:MKAnnotation){
-        let coord = of.coordinate
-        fetchPin(coord)
+    func deletePin(_ pin:MKAnnotation){
+        let coord = pin.coordinate
+        let pinToDelete = fetchPin(coord)!
+        dataController.viewContext.delete(pinToDelete)
+        try? dataController.viewContext.save() // TODO show error if any
+    }
+    
+    func updateEditButtonState() {
+        if let sections = fetchedResultsController.sections{
+            navigationItem.rightBarButtonItem?.isEnabled = sections[0].numberOfObjects > 0
+        }
     }
     
     func fetchPin(_ coordinate: CLLocationCoordinate2D) -> Pin?{
@@ -140,14 +149,9 @@ extension MapVC : MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if isEditing { print("editing")}
         let coordinate = view.annotation?.coordinate
-       // performSegue(withIdentifier: "tophotos", sender: coordinate)
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = mainStoryboard.instantiateViewController(identifier: "PhotosVC") as! PhotosVC
-        vc.coordinate = coordinate
-        vc.pin = fetchPin(coordinate!)
-        vc.dataController = dataController
-        self.navigationController?.pushViewController(vc, animated: true)
+        performSegue(withIdentifier: "tophotos", sender: coordinate)
         mapView.deselectAnnotation(view.annotation, animated: true)
     }
 }

@@ -37,6 +37,7 @@
                     <navigationItem key="navigationItem" id="Mqp-Ib-v79"/>
                     <connections>
                         <outlet property="mapView" destination="NaK-ST-MTi" id="T7x-f1-WzX"/>
+                        <segue destination="Geu-KT-l4Z" kind="show" identifier="tophotos" id="bCp-sY-2hd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -58,6 +59,9 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Nqm-9d-N9W">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="246.5"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Geu-KT-l4Z" id="MR2-MS-Uxn"/>
+                                </connections>
                             </mapView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x3t-zS-Cpr">
                                 <rect key="frame" x="0.0" y="813" width="414" height="49"/>
@@ -138,6 +142,7 @@
                         <outlet property="barButton" destination="BGN-K4-Ln9" id="t02-Pe-chv"/>
                         <outlet property="collectionView" destination="IJb-7a-lPk" id="XiC-Fr-HQu"/>
                         <outlet property="flowLayout" destination="lxy-ch-v0Q" id="ING-b6-8YL"/>
+                        <outlet property="mapView" destination="Nqm-9d-N9W" id="pp1-pn-y4z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zt-iE-Uoj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
