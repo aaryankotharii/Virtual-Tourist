@@ -57,6 +57,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //(UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
-
 }
 

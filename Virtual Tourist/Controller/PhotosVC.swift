@@ -13,6 +13,8 @@ import CoreData
 class PhotosVC: UIViewController {
 
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet var barButton: UIButton!
     
     var coordinate : CLLocationCoordinate2D!
     
@@ -24,25 +26,61 @@ class PhotosVC: UIViewController {
     
     var pin : Pin!
     
+    var coordinateSelected:CLLocationCoordinate2D!
+    let spacingBetweenItems:CGFloat = 5
+    let totalCellCount:Int = 25
+    
     override func viewDidLoad() {
+        
+        let space: CGFloat = 3.0
+        let dimension = (self.view.frame.size.width - (2 * space)) / 3.0
+        
+        flowLayout.minimumInteritemSpacing = spacingBetweenItems
+        flowLayout.minimumLineSpacing = spacingBetweenItems
+        flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+
+        
+        
         super.viewDidLoad()
-        setupFetchedResultsController()
-        if fetchedResultsController.fetchedObjects?.count == 0 {
-        FlickrClient.getFlickrImages(lat: coordinate.latitude, lng: coordinate.longitude) { (success, result, error) in
-            if success {
-                if let result = result{
-                    for image in result {
-                        let url = image.imageURLString()
-                        let imageUrl = URL(string: url)
-                        FlickrClient.requestImageFile(imageUrl!, completionHandler: self.handleImageDownload(data:error:))
+        setupFetchedResultsController(completion: fetchSuccess(success:))
+        print(fetchedResultsController.fetchedObjects)
+        print(fetchedResultsController.sections?[0].numberOfObjects)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+
+    }
+    
+    func fetchSuccess(success:Bool){
+        if success{
+            if fetchedResultsController.fetchedObjects?.count == 0 {
+                FlickrClient.getFlickrImages(lat: coordinate.latitude, lng: coordinate.longitude) { (success, result, error) in
+                    if success {
+                        if let result = result{
+                            for image in result {
+                                let url = image.imageURLString()
+                                let imageUrl = URL(string: url)
+                                FlickrClient.requestImageFile(imageUrl!, completionHandler: self.handleImageDownload(data:error:))
+                            }
+                        }
                     }
                 }
-            }
-        }
+                }
         }
     }
     
-    func addNote(_ data : Data) {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        fetchedResultsController = nil
+    }
+    
+    deinit {
+        collectionView.delegate = nil
+        fetchedResultsController = nil
+        print("deinit: PhotosVC")
+    }
+    
+    func addImageToCoreData(_ data : Data) {
         let photo = Photo(context: dataController.viewContext)
         photo.pin = pin
         photo.imageData = data
@@ -52,14 +90,20 @@ class PhotosVC: UIViewController {
     func handleImageDownload(data:Data?,error:Error?){
         if let data = data {
             print(data,"data saved")
-            addNote(data)
+            addImageToCoreData(data)
         } else {
             print(error?.localizedDescription,"Error saving data")
         }
     }
+    
+    func deleteImage(at indexPath: IndexPath) {
+        let imageToDelete = fetchedResultsController.object(at: indexPath)
+        dataController.viewContext.delete(imageToDelete)
+        try? dataController.viewContext.save()  // TODO show error if any
+    }
 
     
-    fileprivate func setupFetchedResultsController() {
+    fileprivate func setupFetchedResultsController(completion: @escaping (Bool)->()){
             let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
         let predicate = NSPredicate(format: "pin == %@", self.pin)
             fetchRequest.predicate = predicate
@@ -68,15 +112,27 @@ class PhotosVC: UIViewController {
         fetchedResultsController.delegate = self
         do{
             try fetchedResultsController.performFetch()
+            completion(true)
         } catch{
             fatalError(error.localizedDescription)
+        completion(false)
         }
+    }
+    
+    func selectedToDeleteFromIndexPath(_ indexPathArray: [IndexPath]) -> [Int] {
+        var selected:[Int] = []
+        
+        for indexPath in indexPathArray {
+            
+            selected.append(indexPath.row)
+        }
+        return selected
     }
     
     
 }
 
-extension  PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource {
+extension  PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[0].numberOfObjects ?? 0
     }
@@ -90,8 +146,57 @@ extension  PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource {
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+         
+         let width = UIScreen.main.bounds.width / 3 - spacingBetweenItems
+         let height = width
+         return CGSize(width: width, height: height)
+     }
+     
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+         
+         return spacingBetweenItems
+     }
+     
+     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let cell = collectionView.cellForItem(at: indexPath)
+         
+         DispatchQueue.main.async {
+             cell?.contentView.alpha = 0.5
+            self.deleteImage(at: indexPath)
+            cell?.contentView.alpha = 1
+         }
+     }
 }
 
 extension PhotosVC : NSFetchedResultsControllerDelegate{
-    
+
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        //notesTableView.beginUpdates()
+    }
+
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+       // notesTableView.endUpdates()
+    }
+
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            collectionView.insertItems(at: [newIndexPath!])
+        case .delete:
+            print("delete")
+            collectionView.deleteItems(at: [indexPath!])
+        case .update:
+            print("update")
+              //notesTableView.reloadRows(at: [indexPath!], with: .fade)
+          case .move:
+            print("move")
+              //notesTableView.moveRow(at: indexPath!, to: newIndexPath!)
+        @unknown default:
+            break
+        }
+    }
 }

@@ -35,7 +35,7 @@ class MapVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //initialSetup()
+        initialSetup()
     }
     
     deinit {
@@ -173,6 +173,7 @@ extension MapVC : NSFetchedResultsControllerDelegate {
         guard let point = anObject as? Pin else {
             preconditionFailure("All changes observed in the map view controller should be for Point instances")
         }
+        
         switch type {
         case .insert:
             AddAnnotationToMap(point.coordinate)
@@ -188,7 +189,7 @@ extension MapVC : NSFetchedResultsControllerDelegate {
         @unknown default:
             break
         }
-    }
+    }    
 }
 
 extension Pin: MKAnnotation {

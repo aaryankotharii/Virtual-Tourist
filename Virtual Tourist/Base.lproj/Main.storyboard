@@ -64,14 +64,20 @@
                                 <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="pns-vr-FSB"/>
-                                    <barButtonItem title="NEW COLLECTION" id="F3K-6i-2Eb"/>
+                                    <barButtonItem style="plain" id="CnJ-6c-iR4">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="BGN-K4-Ln9">
+                                            <rect key="frame" x="82" y="12" width="250" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="NEW COLLECTION"/>
+                                        </button>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="eQP-5t-rrL"/>
                                 </items>
                             </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IJb-7a-lPk">
                                 <rect key="frame" x="0.0" y="246.5" width="414" height="566.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lxy-ch-v0Q">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lxy-ch-v0Q">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -130,7 +136,9 @@
                     <navigationItem key="navigationItem" id="FRJ-1d-Tab"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="barButton" destination="BGN-K4-Ln9" id="t02-Pe-chv"/>
                         <outlet property="collectionView" destination="IJb-7a-lPk" id="XiC-Fr-HQu"/>
+                        <outlet property="flowLayout" destination="lxy-ch-v0Q" id="ING-b6-8YL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zt-iE-Uoj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
