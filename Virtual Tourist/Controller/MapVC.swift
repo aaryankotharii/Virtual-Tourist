@@ -12,7 +12,7 @@ import CoreData
 
 class MapVC: UIViewController {
     
-    /// Map View that displays
+    /// Map View that displays Map
     @IBOutlet var mapView: MKMapView!
     
     /// Core data Stack
@@ -25,33 +25,20 @@ class MapVC: UIViewController {
     //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        fetchedResultsController = nil
-        mapView.annotations.forEach{mapView.removeAnnotation($0)}
+        initialSetup()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        initialSetup()
         updateEditButtonState()
     }
     
-    deinit {
-        mapView.annotations.forEach{mapView.removeAnnotation($0)}
-        mapView.delegate = nil
-        print("deinit: MapViewController")
-    }
-    
     func initialSetup(){
-         self.navigationItem.rightBarButtonItem = self.editButtonItem
-        mapView.delegate = self
-        setupFetchedResultsController(completion: loadMap(fetchSuccessful:))
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
         if let region = MKCoordinateRegion.load(withKey: "mapregion") {
             mapView.region = region
         }
+        setupFetchedResultsController(completion: loadMap(fetchSuccessful:))
     }
     
     
@@ -83,10 +70,12 @@ class MapVC: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+        updateEditButtonState()
+        isEditing = false
     }
     
     func deleteAnnotation(_ fromCoordinate : CLLocationCoordinate2D){
-       let annotations =  mapView.annotations.filter { $0.coordinate == fromCoordinate}
+        let annotations =  mapView.annotations.filter { $0.coordinate == fromCoordinate}
         let annotationtoDelete = annotations.first
         mapView.removeAnnotation(annotationtoDelete!)
     }
@@ -96,11 +85,13 @@ class MapVC: UIViewController {
         let pinToDelete = fetchPin(coord)!
         dataController.viewContext.delete(pinToDelete)
         try? dataController.viewContext.save() // TODO show error if any
+        updateEditButtonState()
     }
     
     func updateEditButtonState() {
         if let sections = fetchedResultsController.sections{
             navigationItem.rightBarButtonItem?.isEnabled = sections[0].numberOfObjects > 0
+            if !(navigationItem.rightBarButtonItem?.isEnabled ?? false) { isEditing = false }
         }
     }
     
