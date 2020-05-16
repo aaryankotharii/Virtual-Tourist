@@ -10,6 +10,7 @@ import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
+    // CELL IMAGEVIEW
     @IBOutlet var imageView: UIImageView!
     
 }

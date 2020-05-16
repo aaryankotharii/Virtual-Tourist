@@ -80,6 +80,12 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="eQP-5t-rrL"/>
                                 </items>
                             </toolbar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Photos available at this location 😕. Maybe try another?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oLU-tB-YSr">
+                                <rect key="frame" x="62" y="410.5" width="290" height="75.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IJb-7a-lPk">
                                 <rect key="frame" x="0.0" y="252" width="414" height="561"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -122,6 +128,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Nqm-9d-N9W" firstAttribute="height" secondItem="ei8-Qi-45m" secondAttribute="height" multiplier="0.275112" constant="-87.5" id="58S-UL-7oz"/>
+                            <constraint firstItem="oLU-tB-YSr" firstAttribute="centerX" secondItem="ei8-Qi-45m" secondAttribute="centerX" id="D3E-Ks-ZMS"/>
                             <constraint firstItem="IJb-7a-lPk" firstAttribute="leading" secondItem="XZK-QG-Lbz" secondAttribute="leading" id="Hjy-iz-jgg"/>
                             <constraint firstItem="x3t-zS-Cpr" firstAttribute="trailing" secondItem="XZK-QG-Lbz" secondAttribute="trailing" id="Iyt-Gm-rKG"/>
                             <constraint firstItem="Nqm-9d-N9W" firstAttribute="top" secondItem="ei8-Qi-45m" secondAttribute="top" constant="88" id="Pyp-J1-2V1"/>
@@ -129,8 +136,10 @@
                             <constraint firstItem="Nqm-9d-N9W" firstAttribute="trailing" secondItem="XZK-QG-Lbz" secondAttribute="trailing" id="SF7-k5-e8x"/>
                             <constraint firstItem="XZK-QG-Lbz" firstAttribute="bottom" secondItem="x3t-zS-Cpr" secondAttribute="bottom" id="Tef-iD-ZZ3"/>
                             <constraint firstItem="XZK-QG-Lbz" firstAttribute="trailing" secondItem="IJb-7a-lPk" secondAttribute="trailing" id="TjO-Xp-BYi"/>
+                            <constraint firstItem="oLU-tB-YSr" firstAttribute="width" secondItem="ei8-Qi-45m" secondAttribute="width" multiplier="0.7" id="VK6-W5-ATl"/>
                             <constraint firstItem="XZK-QG-Lbz" firstAttribute="bottom" secondItem="x3t-zS-Cpr" secondAttribute="bottom" id="Yp9-rd-Laz"/>
                             <constraint firstItem="x3t-zS-Cpr" firstAttribute="top" secondItem="IJb-7a-lPk" secondAttribute="bottom" id="crK-FS-uGF"/>
+                            <constraint firstItem="oLU-tB-YSr" firstAttribute="centerY" secondItem="ei8-Qi-45m" secondAttribute="centerY" id="fhm-Zg-6Qd"/>
                             <constraint firstItem="x3t-zS-Cpr" firstAttribute="trailing" secondItem="XZK-QG-Lbz" secondAttribute="trailing" id="gG1-uq-jVc"/>
                             <constraint firstItem="x3t-zS-Cpr" firstAttribute="leading" secondItem="XZK-QG-Lbz" secondAttribute="leading" id="kUY-Fg-urv"/>
                             <constraint firstItem="x3t-zS-Cpr" firstAttribute="leading" secondItem="XZK-QG-Lbz" secondAttribute="leading" id="vOM-ON-eg5"/>
@@ -146,6 +155,7 @@
                         <outlet property="collectionView" destination="IJb-7a-lPk" id="XiC-Fr-HQu"/>
                         <outlet property="flowLayout" destination="lxy-ch-v0Q" id="ING-b6-8YL"/>
                         <outlet property="mapView" destination="Nqm-9d-N9W" id="pp1-pn-y4z"/>
+                        <outlet property="noPhotosLabel" destination="oLU-tB-YSr" id="k3r-Qo-hur"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zt-iE-Uoj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

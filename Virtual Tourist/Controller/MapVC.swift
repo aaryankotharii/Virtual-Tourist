@@ -35,7 +35,9 @@ class MapVC: UIViewController {
     
     func initialSetup(){
         self.navigationItem.rightBarButtonItem = self.editButtonItem            /// Set Edit Button
-        mapView.region = MKCoordinateRegion.load(withKey: "mapregion")          /// Load persisted mapview
+        if let region = MKCoordinateRegion.load(withKey: "mapregion"){
+            mapView.region = region                                             /// Load persisted mapview
+        }
         setupFetchedResultsController(completion: loadMap(fetchSuccessful:))    /// Setup fetchedResultsController
     }
     
@@ -63,6 +65,7 @@ class MapVC: UIViewController {
         let pin = Pin(context: dataController.viewContext)      /// Initialise Pin
         pin.latitude = coordinate.latitude
         pin.longitude = coordinate.longitude
+        pin.page = 1
         do{
             try dataController.viewContext.save()
         } catch {
@@ -168,8 +171,8 @@ extension MKCoordinateRegion {
         UserDefaults.standard.set(locationData, forKey: key)
     }
     
-    public static func load(withKey key:String) -> MKCoordinateRegion {
-        guard let region = UserDefaults.standard.object(forKey: key) as? [Double] else { return MKCoordinateRegion() }
+    public static func load(withKey key:String) -> MKCoordinateRegion? {
+        guard let region = UserDefaults.standard.object(forKey: key) as? [Double] else { return nil }
         let center = CLLocationCoordinate2D(latitude: region[0], longitude: region[1])
         let span = MKCoordinateSpan(latitudeDelta: region[2], longitudeDelta: region[3])
         return MKCoordinateRegion(center: center, span: span)

@@ -13,11 +13,13 @@ import Foundation
 import UIKit
 
 class FlickrClient {
+    //MARK: CONSTANTS
     private static let flickrEndpoint  = "https://api.flickr.com/services/rest/"
     private static let flickrAPIKey    = "6631798c498928174b419c82dcbeccb8"
     private static let flickrSearch    = "flickr.photos.search"
     private static let format          = "json"
     private static let searchRangeKM   = 10
+    private static let perpage = 25
     
     
     //MARK:- GET REQUEST
@@ -49,19 +51,18 @@ class FlickrClient {
         return task
     }
     
-    static func getFlickrImages(lat: Double, lng: Double, completion: @escaping ([FlickrImage]?,Error?) -> Void) {
-        
-            let request = URL(string: "\(flickrEndpoint)?method=\(flickrSearch)&format=\(format)&api_key=\(flickrAPIKey)&lat=\(lat)&lon=\(lng)&radius=\(searchRangeKM)")!
-        
-        print(request)
-        
+    //MARK: Get resposne of request
+    static func getFlickrImages(lat: Double, lng: Double,page:Int, completion: @escaping (Int,[FlickrImage]?,Error?) -> Void) {
+            let request = URL(string: "\(flickrEndpoint)?method=\(flickrSearch)&format=\(format)&api_key=\(flickrAPIKey)&lat=\(lat)&lon=\(lng)&radius=\(searchRangeKM)&page=\(page)&per_page=\(perpage)")!
+                
         taskForGETRequest(url: request, responseType: PhotosResponse.self) { (result, error) in
             if let error = error {
-                completion(nil,error)
+                completion(0,nil,error)
                 return
             }
             let photos = result?.photos.photo
-            completion(photos,nil)
+            let numberOfPages = (result?.photos.pages) ?? 0
+            completion(numberOfPages,photos,nil)
         }
     }
     

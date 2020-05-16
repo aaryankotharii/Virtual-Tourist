@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK:- RESPONSE OF FLCIKR API REQUEST
 
 struct PhotosResponse:Codable {
     let photos: PhotosInfo
@@ -21,6 +22,7 @@ struct PhotosInfo: Codable {
     let total: String
     let photo: [FlickrImage]
 }
+
 struct FlickrImage:Codable {
     let id: String
     let owner: String
