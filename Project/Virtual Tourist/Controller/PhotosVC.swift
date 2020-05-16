@@ -42,6 +42,9 @@ class PhotosVC: UIViewController {
                 barButton.isEnabled = true
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
             }
+            if photos.isEmpty{
+                noPhotosLabel.alpha = 1
+            }
         }
     }
     
@@ -56,11 +59,6 @@ class PhotosVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        noPhotosLabel.alpha = 0
     }
     
     //MARK: Initial setup
@@ -144,7 +142,7 @@ class PhotosVC: UIViewController {
         photos = []
         collectionView.reloadData()
         collectionView.alpha = 0
-        noPhotosLabel.alpha = 1
+        //noPhotosLabel.alpha = 1
     }
     
     //MARK: Download Images from imageUrls

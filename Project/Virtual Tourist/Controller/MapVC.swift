@@ -207,7 +207,7 @@ extension MapVC : NSFetchedResultsControllerDelegate {
         case .insert:
             AddAnnotationToMap(point.coordinate)
         case .delete:
-            print("delete")
+            print("Pin Delete successful")
             deleteAnnotation(point.coordinate)
         default:
             break

@@ -55,6 +55,7 @@ class FlickrClient {
     static func getFlickrImages(lat: Double, lng: Double,page:Int, completion: @escaping (Int,[FlickrImage]?,Error?) -> Void) {
             let request = URL(string: "\(flickrEndpoint)?method=\(flickrSearch)&format=\(format)&api_key=\(flickrAPIKey)&lat=\(lat)&lon=\(lng)&radius=\(searchRangeKM)&page=\(page)&per_page=\(perpage)")!
                 
+        print(request)
         taskForGETRequest(url: request, responseType: PhotosResponse.self) { (result, error) in
             if let error = error {
                 completion(0,nil,error)
