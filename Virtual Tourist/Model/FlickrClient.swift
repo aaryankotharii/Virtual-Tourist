@@ -53,6 +53,8 @@ class FlickrClient {
         
             let request = URL(string: "\(flickrEndpoint)?method=\(flickrSearch)&format=\(format)&api_key=\(flickrAPIKey)&lat=\(lat)&lon=\(lng)&radius=\(searchRangeKM)")!
         
+        print(request)
+        
         taskForGETRequest(url: request, responseType: PhotosResponse.self) { (result, error) in
             if let error = error {
                 completion(nil,error)
@@ -62,6 +64,7 @@ class FlickrClient {
             completion(photos,nil)
         }
     }
+    
     
     class func requestImageFile(_ url : URL, completion: @escaping (Data?,Error?) -> Void){
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in

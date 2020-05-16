@@ -27,6 +27,8 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
     
     var pin : Pin!
     
+    var photos : [UIImage] = Array(repeating: #imageLiteral(resourceName: "placeholder"), count: 25)
+    
     var coordinateSelected:CLLocationCoordinate2D!
     let spacingBetweenItems:CGFloat = 5
     let totalCellCount:Int = 25
@@ -35,6 +37,11 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         initialSetup()
     }
+    
+    @IBAction func newCollectionClicked(_ sender: Any) {
+        
+    }
+    
     
     func initialSetup(){
         //collectionView FlowLayout setup
@@ -71,6 +78,8 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
     //MARK: Get Array of imageUrls
     func handleSuccessFlickerImages(result:[FlickrImage]?,error:Error?){
         if let result = result{
+            photos = Array(repeating: #imageLiteral(resourceName: "placeholder"), count: result.count-1)
+            print(result.count)
             for image in result {
                 let imageUrl = URL(string: image.imageURLString())
                 FlickrClient.requestImageFile(imageUrl!, completion: self.handleImageDownload(data:error:))
@@ -82,7 +91,13 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
     func handleImageDownload(data:Data?,error:Error?){
         if let data = data {
             print(data,"data saved")
-            addImageToCoreData(data)
+            DispatchQueue.main.async {
+                if let aPhoto = UIImage(data: data){
+                    self.addImageToPhotos(aPhoto)
+                self.collectionView.reloadData()
+            }
+                self.addImageToCoreData(data)
+            }
         } else {
             print(error!.localizedDescription,"Error saving data")
         }
@@ -93,21 +108,23 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
         let photo = Photo(context: dataController.viewContext)
         photo.pin = pin
         photo.imageData = data
-        do {
-            try dataController.viewContext.save()
-        } catch {
-            print(error.localizedDescription)
-        }
+        try? dataController.viewContext.save()
     }
     
     //MARK: Delete Image from database
     func deleteImage(at indexPath: IndexPath) {
         let imageToDelete = fetchedResultsController.object(at: indexPath)
         dataController.viewContext.delete(imageToDelete)
-        do{
-            try dataController.viewContext.save()
-        } catch {
-            print(error.localizedDescription)
+        try? dataController.viewContext.save()
+        photos.remove(at: indexPath.item)
+    }
+    
+    func addImageToPhotos(_ image: UIImage){
+        if photos.contains(#imageLiteral(resourceName: "placeholder")){
+            let index = photos.firstIndex(of: #imageLiteral(resourceName: "placeholder"))
+            photos[index!] = image
+        } else {
+            photos.append(image)
         }
     }
 }
@@ -115,16 +132,13 @@ class PhotosVC: UIViewController, MKMapViewDelegate {
 //MARK:-  UICollectionView Methods
 extension  PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchedResultsController.sections?[0].numberOfObjects ?? 0
+        return photos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let aPhoto = fetchedResultsController.object(at: indexPath)
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PhotosCollectionViewCell
         
-        cell.imageView.image = UIImage(data: aPhoto.imageData!)
-        
+        cell.imageView.image = photos[indexPath.item]
         return cell
     }
     
@@ -144,9 +158,8 @@ extension  PhotosVC : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         let cell = collectionView.cellForItem(at: indexPath)
         
         DispatchQueue.main.async {
-            cell?.contentView.alpha = 0.5
             self.deleteImage(at: indexPath)
-            cell?.contentView.alpha = 1
+            collectionView.reloadData()
         }
     }
 }
@@ -163,26 +176,15 @@ extension PhotosVC : NSFetchedResultsControllerDelegate{
         fetchedResultsController.delegate = self
         do{
             try fetchedResultsController.performFetch()
+            for photo in fetchedResultsController.fetchedObjects!{
+                let aPhoto = UIImage(data: photo.imageData!)
+                addImageToPhotos(aPhoto!)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
         } catch{
             fatalError(error.localizedDescription)
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            collectionView.insertItems(at: [newIndexPath!])
-        case .delete:
-            print("delete")
-            collectionView.deleteItems(at: [indexPath!])
-        case .update:
-            print("update")
-        //notesTableView.reloadRows(at: [indexPath!], with: .fade)
-        case .move:
-            print("move")
-        //notesTableView.moveRow(at: indexPath!, to: newIndexPath!)
-        @unknown default:
-            break
         }
     }
 }

@@ -72,13 +72,16 @@
                                             <rect key="frame" x="82" y="12" width="250" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="NEW COLLECTION"/>
+                                            <connections>
+                                                <action selector="newCollectionClicked:" destination="Geu-KT-l4Z" eventType="touchUpInside" id="7og-Gw-zc2"/>
+                                            </connections>
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="eQP-5t-rrL"/>
                                 </items>
                             </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IJb-7a-lPk">
-                                <rect key="frame" x="0.0" y="247" width="414" height="566"/>
+                                <rect key="frame" x="0.0" y="252" width="414" height="561"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lxy-ch-v0Q">
                                     <size key="itemSize" width="128" height="128"/>
@@ -96,7 +99,6 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rtP-VO-mPY">
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                    <color key="backgroundColor" red="0.99607843139999996" green="0.14901960780000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
@@ -132,7 +134,7 @@
                             <constraint firstItem="x3t-zS-Cpr" firstAttribute="trailing" secondItem="XZK-QG-Lbz" secondAttribute="trailing" id="gG1-uq-jVc"/>
                             <constraint firstItem="x3t-zS-Cpr" firstAttribute="leading" secondItem="XZK-QG-Lbz" secondAttribute="leading" id="kUY-Fg-urv"/>
                             <constraint firstItem="x3t-zS-Cpr" firstAttribute="leading" secondItem="XZK-QG-Lbz" secondAttribute="leading" id="vOM-ON-eg5"/>
-                            <constraint firstItem="IJb-7a-lPk" firstAttribute="top" secondItem="Nqm-9d-N9W" secondAttribute="bottom" id="x0z-Ao-hWq"/>
+                            <constraint firstItem="IJb-7a-lPk" firstAttribute="top" secondItem="Nqm-9d-N9W" secondAttribute="bottom" constant="5" id="x0z-Ao-hWq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="XZK-QG-Lbz"/>
                     </view>
