@@ -172,7 +172,11 @@ class PhotosVC: UIViewController {
     
     //MARK: Delete Image from database and photos array
     func deleteImage(at index: Int) {
+        reFetch()
         if let photos = fetchedResultsController.fetchedObjects{
+            if photos.count == 0 {
+                return
+            }
             let imageToDelete = photos[index]
             do{
                 dataController.viewContext.delete(imageToDelete)
